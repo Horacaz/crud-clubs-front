@@ -1,39 +1,41 @@
 import { IParsedClub } from "../../types/clubs";
-import clubsData from "../../../fixtures/clubs.json";
-import { useEffect } from "react";
-const clubs: IParsedClub[] = clubsData;
-
+import Loading from "../Loading/Loading";
+import useClubs from "../../hooks/useClubs";
 export default function Home() {
-  useEffect(() => {}, []);
-
+  const { data, loading } = useClubs();
   const addNewHandler = () => {
-    console.log("Add new handled");
+    alert("Add new handled");
   };
-  const deleteHandler = (id: number) => {
-    console.log("Delete handled with ", id);
-  };
-
-  const editHandler = (id: number) => {
-    console.log("Edit handled with ", id);
+  const deleteHandler = () => {
+    alert("Delete handled with");
   };
 
-  const viewHandler = (id: number) => {
-    console.log("View handled with ", id);
+  const editHandler = () => {
+    alert("Edit handled with");
+  };
+
+  const viewHandler = () => {
+    alert("View handled with");
   };
 
   return (
-    <div className="p-2">
-      <h2 className="text-mainWhite font-bold text-center text-sm md:text-xl">
-        There are currently {clubs.length} clubs
-        <MainButton text="Add New" onClick={addNewHandler} />
-      </h2>
-      <ClubsTable
-        clubs={clubs}
-        deleteHandler={deleteHandler}
-        editHandler={editHandler}
-        viewHandler={viewHandler}
-      />
-    </div>
+    <>
+      {loading && <Loading />}
+      {data && (
+        <div className="p-2">
+          <h2 className="text-mainWhite font-bold text-center text-sm md:text-xl">
+            There are currently {data.length} clubs
+            <MainButton text="Add New" onClick={addNewHandler} />
+          </h2>
+          <ClubsTable
+            clubs={data}
+            deleteHandler={deleteHandler}
+            editHandler={editHandler}
+            viewHandler={viewHandler}
+          />
+        </div>
+      )}
+    </>
   );
 }
 

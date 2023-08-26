@@ -1,11 +1,14 @@
 import Home from "./components/Home/Home";
 import Header from "./components/Header/Header";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="bg-mainBlack">
+    <div className="bg-mainBlack min-h-screen min-w-screen">
       <Header />
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </div>
   );
 }
