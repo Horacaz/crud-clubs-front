@@ -1,5 +1,6 @@
 export interface IParsedClub {
   id: number;
+  country: string;
   name: string;
   shortName: string;
   tla: string;
@@ -16,6 +17,10 @@ export interface IParsedClub {
 
 export interface IUnparsedClub {
   id: number;
+  area: {
+    id: number;
+    name: string;
+  };
   name: string;
   shortName: string;
   tla: string;

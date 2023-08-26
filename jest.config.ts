@@ -4,6 +4,6 @@ export default async (): Promise<Config> => {
   return {
     verbose: true,
     preset: "ts-jest",
-    testEnvironment: "node",
+    testEnvironment: "jest-environment-jsdom",
   };
 };

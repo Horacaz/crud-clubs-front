@@ -3,6 +3,7 @@ export default class Club implements IParsedClub {
   id: number;
   name: string;
   shortName: string;
+  country: string;
   tla: string;
   crestSrc: string;
   address: string;
@@ -28,5 +29,6 @@ export default class Club implements IParsedClub {
     this.clubColors = club.clubColors;
     this.venue = club.venue;
     this.lastUpdated = club.lastUpdated;
+    this.country = club.country;
   }
 }

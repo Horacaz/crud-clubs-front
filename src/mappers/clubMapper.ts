@@ -3,6 +3,7 @@ import Club from "../entities/club";
 
 export default function clubMapper(club: IUnparsedClub): IParsedClub {
   const crestSrc = club.crestUrl;
+  const country = club.area.name;
   const {
     id,
     name,
@@ -32,5 +33,6 @@ export default function clubMapper(club: IUnparsedClub): IParsedClub {
     clubColors,
     venue,
     lastUpdated,
+    country,
   });
 }

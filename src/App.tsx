@@ -1,4 +1,12 @@
+import Home from "./components/Home/Home";
+import Header from "./components/Header/Header";
+
 function App() {
-  return <h1 className="text-3xl font-bold">Hello world!</h1>;
+  return (
+    <div className="bg-mainBlack">
+      <Header />
+      <Home />
+    </div>
+  );
 }
 export default App;

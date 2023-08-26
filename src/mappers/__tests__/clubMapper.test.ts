@@ -4,6 +4,10 @@ jest.mock("../../entities/club", () => jest.fn((club: IParsedClub) => club));
 
 const clubDataMock: IUnparsedClub = {
   id: 1,
+  area: {
+    id: 1,
+    name: "test",
+  },
   name: "test",
   shortName: "test",
   tla: "test",
@@ -22,6 +26,7 @@ const expectedMappedClub: IParsedClub = {
   id: 1,
   name: "test",
   shortName: "test",
+  country: "test",
   tla: "test",
   crestSrc: "test",
   address: "test",

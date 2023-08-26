@@ -5,6 +5,7 @@ const clubDataMock: IParsedClub = {
   id: 1,
   name: "test",
   shortName: "test",
+  country: "test",
   tla: "test",
   crestSrc: "test",
   address: "test",
