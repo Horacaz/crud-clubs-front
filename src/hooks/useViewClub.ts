@@ -1,21 +1,21 @@
-import { useEffect, useReducer } from "react";
-import { getClubsFromApi } from "../api/clubs";
-import { IParsedClub, IUnparsedClub } from "../types/clubs";
+import { getClubFromApi } from "../api/clubs";
 import clubMapper from "../mappers/clubMapper";
+import { useEffect, useReducer } from "react";
+import { IParsedClub, IUnparsedClub } from "../types/clubs";
 
 type State = {
   loading: boolean | null;
   error: Error | null;
-  data: IParsedClub[] | null;
+  data: IParsedClub | null;
 };
 
 type Action = {
   type: string;
-  payload: IParsedClub[] | null | Error;
+  payload: IParsedClub | null | Error;
 };
 
 const initialState = { loading: null, data: null, error: null };
-const clubsReducer = (state: State, action: Action) => {
+const clubReducer = (state: State, action: Action) => {
   const { type, payload } = action;
   switch (type) {
     case "LOADING":
@@ -24,7 +24,7 @@ const clubsReducer = (state: State, action: Action) => {
       return {
         ...state,
         loading: false,
-        data: payload as IParsedClub[],
+        data: payload as IParsedClub,
         error: null,
       };
     case "ERROR":
@@ -34,20 +34,20 @@ const clubsReducer = (state: State, action: Action) => {
   }
 };
 
-export default function useClubs() {
-  const [state, dispatch] = useReducer(clubsReducer, initialState);
+export default function useViewClub(clubId: number) {
+  const [state, dispatch] = useReducer(clubReducer, initialState);
   useEffect(() => {
-    const getClubs = async () => {
+    const getClub = async () => {
       dispatch({ type: "LOADING", payload: null });
       try {
-        const clubs: IUnparsedClub[] = await getClubsFromApi();
-        const parsedClubs = clubs.map((club) => clubMapper(club));
-        dispatch({ type: "SUCCESS", payload: parsedClubs });
+        const club: IUnparsedClub = await getClubFromApi(clubId);
+        const parsedClub = clubMapper(club);
+        dispatch({ type: "SUCCESS", payload: parsedClub });
       } catch (error) {
         dispatch({ type: "ERROR", payload: null });
       }
     };
-    getClubs();
-  }, []);
+    getClub();
+  }, [clubId]);
   return state;
 }

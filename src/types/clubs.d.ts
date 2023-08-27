@@ -15,11 +15,6 @@ export interface IParsedClub {
   lastUpdated: string;
 }
 
-export interface IUnparsedClubs {
-  status: string;
-  data: IUnparsedClub[];
-}
-
 export interface IUnparsedClub {
   id: number;
   area: {

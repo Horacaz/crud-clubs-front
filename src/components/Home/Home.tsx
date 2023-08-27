@@ -1,21 +1,12 @@
 import { IParsedClub } from "../../types/clubs";
 import Loading from "../Loading/Loading";
 import useClubs from "../../hooks/useClubs";
+import { Link } from "react-router-dom";
 export default function Home() {
   const { data, loading } = useClubs();
+
   const addNewHandler = () => {
     alert("Add new handled");
-  };
-  const deleteHandler = () => {
-    alert("Delete handled with");
-  };
-
-  const editHandler = () => {
-    alert("Edit handled with");
-  };
-
-  const viewHandler = () => {
-    alert("View handled with");
   };
 
   return (
@@ -27,25 +18,15 @@ export default function Home() {
             There are currently {data.length} clubs
             <MainButton text="Add New" onClick={addNewHandler} />
           </h2>
-          <ClubsTable
-            clubs={data}
-            deleteHandler={deleteHandler}
-            editHandler={editHandler}
-            viewHandler={viewHandler}
-          />
+          <ClubsTable clubs={data} />
         </div>
       )}
     </>
   );
 }
 
-function ClubsTable(props: {
-  clubs: IParsedClub[];
-  deleteHandler: (id: number) => void;
-  editHandler: (id: number) => void;
-  viewHandler: (id: number) => void;
-}) {
-  const { clubs, deleteHandler, editHandler, viewHandler } = props;
+function ClubsTable(props: { clubs: IParsedClub[] }) {
+  const { clubs } = props;
   return (
     <table className="my-4 m-auto font-bold text-2xs bg-mainGray rounded rounded-b-lg md:text-base">
       <thead>
@@ -69,12 +50,9 @@ function ClubsTable(props: {
             <td className="rounded">{club.country}</td>
             <td className="rounded">
               <ButtonGroup>
-                <TableButton text="View" onClick={() => viewHandler(club.id)} />
-                <TableButton text="Edit" onClick={() => editHandler(club.id)} />
-                <TableButton
-                  text="Delete"
-                  onClick={() => deleteHandler(club.id)}
-                />
+                <TableButton text="View" action="view" clubId={club.id} />
+                <TableButton text="Edit" action="edit" clubId={club.id} />
+                <TableButton text="Delete" action="delete" clubId={club.id} />
               </ButtonGroup>
             </td>
           </tr>
@@ -84,14 +62,13 @@ function ClubsTable(props: {
   );
 }
 
-function TableButton(props: { text: string; onClick: () => void }) {
+function TableButton(props: { text: string; action: string; clubId: number }) {
   return (
-    <button
-      className="m-1 py-1 px-2 bg-mainRed text-mainWhite font-bold rounded text-2xs rounded bg-mainGray md:text-base md:py-2 md:px-4"
-      onClick={props.onClick}
-    >
-      {props.text}
-    </button>
+    <Link to={`/club/${props.action}/${props.clubId}`}>
+      <button className="m-1 py-1 px-2 bg-mainRed text-mainWhite font-bold rounded text-2xs rounded bg-mainGray md:text-base md:py-2 md:px-4">
+        {props.text}
+      </button>
+    </Link>
   );
 }
 
