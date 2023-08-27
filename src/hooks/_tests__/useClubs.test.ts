@@ -5,30 +5,27 @@ import useClubs from "../useClubs";
 jest.mock("../../api/clubs", () => {
   return {
     getClubsFromApi: jest.fn(() =>
-      Promise.resolve({
-        status: "success",
-        data: [
-          {
+      Promise.resolve([
+        {
+          id: 1,
+          area: {
             id: 1,
-            area: {
-              id: 1,
-              name: "test",
-            },
             name: "test",
-            shortName: "test",
-            tla: "test",
-            crestUrl: "test",
-            address: "test",
-            phone: "test",
-            website: "test",
-            email: "test",
-            founded: 1,
-            clubColors: "test",
-            venue: "test",
-            lastUpdated: "test",
           },
-        ],
-      }),
+          name: "test",
+          shortName: "test",
+          tla: "test",
+          crestUrl: "test",
+          address: "test",
+          phone: "test",
+          website: "test",
+          email: "test",
+          founded: 1,
+          clubColors: "test",
+          venue: "test",
+          lastUpdated: "test",
+        },
+      ]),
     ),
   };
 });

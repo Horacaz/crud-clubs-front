@@ -1,5 +1,6 @@
-import Home from "./components/Home/Home";
 import Header from "./components/Header/Header";
+import Home from "./components/Home/Home";
+import ClubView from "./components/ClubView/ClubView";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="club/view/:id" element={<ClubView />} />
       </Routes>
     </div>
   );
