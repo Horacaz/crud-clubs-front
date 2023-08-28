@@ -34,3 +34,7 @@ export interface IUnparsedClub {
   venue: string;
   lastUpdated: string;
 }
+
+export interface ApiResponse {
+  status: string;
+}
