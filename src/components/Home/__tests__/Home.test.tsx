@@ -1,13 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../Home";
-import useClubs from "../../../hooks/useClubs";
+import useClubsList from "../../../hooks/useClubsList";
 import { MemoryRouter } from "react-router-dom";
-jest.mock("../../../hooks/useClubs");
+jest.mock("../../../hooks/useClubsList");
 
-const useClubsMock = useClubs as jest.Mock;
+const useClubsListMock = useClubsList as jest.Mock;
 
 beforeEach(() => {
-  useClubsMock.mockReturnValue({
+  useClubsListMock.mockReturnValue({
     loading: false,
     data: [
       {

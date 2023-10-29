@@ -3,7 +3,7 @@ import Loading from "../Loading";
 
 describe("Loading", () => {
   test("It renders component correctly", () => {
-    render(<Loading />);
+    render(<Loading isDisplayed={true} />);
     screen.getByRole("status");
   });
 });

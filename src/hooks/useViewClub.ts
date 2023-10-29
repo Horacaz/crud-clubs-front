@@ -1,53 +1,26 @@
 import { getClubFromApi } from "../api/clubs";
 import clubMapper from "../mappers/clubMapper";
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { IParsedClub, IUnparsedClub } from "../types/clubs";
-
-type State = {
-  loading: boolean | null;
-  error: Error | null;
-  data: IParsedClub | null;
-};
-
-type Action = {
-  type: string;
-  payload: IParsedClub | null | Error;
-};
-
-const initialState = { loading: null, data: null, error: null };
-const clubReducer = (state: State, action: Action) => {
-  const { type, payload } = action;
-  switch (type) {
-    case "LOADING":
-      return { ...state, loading: true, data: null, error: null };
-    case "SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        data: payload as IParsedClub,
-        error: null,
-      };
-    case "ERROR":
-      return { ...state, loading: false, data: null, error: payload as Error };
-    default:
-      return state;
-  }
-};
+import useClubsApp from "./useClubsApp";
 
 export default function useViewClub(clubId: number) {
-  const [state, dispatch] = useReducer(clubReducer, initialState);
+  const { state, handleLoadingAction, handleSuccessAction, handleErrorAction } =
+    useClubsApp<IParsedClub>();
+
   useEffect(() => {
     const getClub = async () => {
-      dispatch({ type: "LOADING", payload: null });
+      handleLoadingAction();
       try {
         const club: IUnparsedClub = await getClubFromApi(clubId);
         const parsedClub = clubMapper(club);
-        dispatch({ type: "SUCCESS", payload: parsedClub });
+        handleSuccessAction(parsedClub);
       } catch (error) {
-        dispatch({ type: "ERROR", payload: null });
+        handleErrorAction(error as Error);
       }
     };
+    1;
     getClub();
-  }, [clubId]);
+  }, [clubId, handleLoadingAction, handleSuccessAction, handleErrorAction]);
   return state;
 }

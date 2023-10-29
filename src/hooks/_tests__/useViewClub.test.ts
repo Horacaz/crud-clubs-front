@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { IParsedClub } from "../../types/clubs";
 import useViewClub from "../useViewClub";
+import { ClubsProvider } from "../../context/clubsContext";
 
 jest.mock("../../api/clubs", () => {
   return {
@@ -49,7 +50,9 @@ describe("useClubs", () => {
       lastUpdated: "test",
     };
 
-    const { result } = renderHook(() => useViewClub(clubId));
+    const { result } = renderHook(() => useViewClub(clubId), {
+      wrapper: ClubsProvider,
+    });
     await waitFor(() => {
       expect(result.current).toEqual({
         data: parsedClub,

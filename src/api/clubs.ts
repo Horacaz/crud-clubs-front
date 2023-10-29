@@ -25,3 +25,13 @@ export async function deleteClubFromApi(id: number): Promise<ApiResponse> {
     .then((data) => data);
   return club;
 }
+
+export async function addClubToApi(data: FormData): Promise<ApiResponse> {
+  const club = await fetch("https://crub-clubs-api.onrender.com/api/club", {
+    method: "POST",
+    body: data,
+  })
+    .then((res) => res.json())
+    .then((data) => data);
+  return club;
+}

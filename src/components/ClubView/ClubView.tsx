@@ -1,23 +1,38 @@
 import { useParams } from "react-router-dom";
-import Loading from "../Loading/Loading";
+import Loading from "../Loading";
 import useViewClub from "../../hooks/useViewClub";
 import { IParsedClub } from "../../types/clubs";
 export default function ClubView() {
   const { id } = useParams();
-  const { data, loading } = useViewClub(Number(id));
+  const { data, loading, error } = useViewClub(Number(id));
+
+  if (loading) return <Loading isDisplayed={loading} />;
+
+  if (data) return <ClubViewContent data={data} />;
+
+  if (error) return <ErrorMessage />;
+}
+
+function ClubViewContent(props: { data: IParsedClub }) {
+  const data: IParsedClub = props.data;
   return (
-    <>
-      {loading && <Loading />}
-      {data && (
-        <div className="flex flex-col items-center">
-          <div className="m-2 p-2">
-            <ClubInformation clubData={data} />
-            <ClubContact clubData={data} />
-            <ClubImage clubData={data} />
-          </div>
-        </div>
-      )}
-    </>
+    <div className="flex flex-col items-center">
+      <div className="m-2 p-2">
+        <ClubInformation clubData={data} />
+        <ClubContact clubData={data} />
+        <ClubImage clubData={data} />
+      </div>
+    </div>
+  );
+}
+
+function ErrorMessage() {
+  return (
+    <div className="p-2">
+      <h2 className="text-mainWhite font-bold text-center text-sm md:text-xl">
+        An error has occured, please refresh and wait a moment.
+      </h2>
+    </div>
   );
 }
 
