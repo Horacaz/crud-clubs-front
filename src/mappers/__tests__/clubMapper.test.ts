@@ -1,14 +1,11 @@
-import { IUnparsedClub, IParsedClub } from "../../types/clubs";
+import { IUnparsedClub, IClub } from "../../types/clubs";
 import clubMapper from "../clubMapper";
-jest.mock("../../entities/club", () => jest.fn((club: IParsedClub) => club));
+jest.mock("../../entities/club", () => jest.fn((club: IClub) => club));
 
 const clubDataMock: IUnparsedClub = {
   id: 1,
-  area: {
-    id: 1,
-    name: "test",
-  },
   name: "test",
+  country: "test",
   shortName: "test",
   tla: "test",
   crestUrl: "test",
@@ -19,10 +16,9 @@ const clubDataMock: IUnparsedClub = {
   founded: 1,
   clubColors: "test",
   venue: "test",
-  lastUpdated: "test",
 };
 
-const expectedMappedClub: IParsedClub = {
+const expectedMappedClub: IClub = {
   id: 1,
   name: "test",
   shortName: "test",
@@ -36,7 +32,6 @@ const expectedMappedClub: IParsedClub = {
   founded: 1,
   clubColors: "test",
   venue: "test",
-  lastUpdated: "test",
 };
 
 describe("clubMapper", () => {

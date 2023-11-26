@@ -1,7 +1,7 @@
-import { IParsedClub } from "../../types/clubs";
+import { IClub } from "../../types/clubs";
 import Club from "../club";
 
-const clubDataMock: IParsedClub = {
+const clubDataMock: IClub = {
   id: 1,
   name: "test",
   shortName: "test",
@@ -15,7 +15,6 @@ const clubDataMock: IParsedClub = {
   founded: 1,
   clubColors: "test",
   venue: "test",
-  lastUpdated: "test",
 };
 describe("Club", () => {
   test("It should instantiate a new club if valid data is passed", () => {

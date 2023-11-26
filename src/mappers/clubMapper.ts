@@ -1,12 +1,20 @@
-import { IParsedClub, IUnparsedClub } from "../types/clubs";
+import { IClub, IUnparsedClub } from "../types/clubs";
 import Club from "../entities/club";
 
-export default function clubMapper(club: IUnparsedClub): IParsedClub {
-  const imagesRegex = /images\/.*$/;
-  const API_URL = "https://crub-clubs-api.onrender.com";
-  const crestUrl = club.crestUrl.match(imagesRegex);
-  const crestSrc = crestUrl ? `${API_URL}/${crestUrl[0]}` : club.crestUrl;
-  const country = club.area.name;
+export default function clubMapper(club: IUnparsedClub): IClub {
+  const regex = /public\\images\\*.*/;
+  const crestUrlMatch = club.crestUrl.match(regex);
+  if (crestUrlMatch) {
+    const parsedUrl =
+      crestUrlMatch[0].replace(
+        "public",
+        "https://crub-clubs-api.onrender.com/api",
+      ) || club.crestUrl;
+    club.crestUrl = parsedUrl;
+  }
+
+  const crestSrc = club.crestUrl;
+  const country = club.country;
   const {
     id,
     name,
@@ -19,7 +27,6 @@ export default function clubMapper(club: IUnparsedClub): IParsedClub {
     founded,
     clubColors,
     venue,
-    lastUpdated,
   } = club;
 
   return new Club({
@@ -35,7 +42,6 @@ export default function clubMapper(club: IUnparsedClub): IParsedClub {
     founded,
     clubColors,
     venue,
-    lastUpdated,
     country,
   });
 }

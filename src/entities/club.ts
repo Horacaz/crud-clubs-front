@@ -1,5 +1,5 @@
-import { IParsedClub } from "../types/clubs";
-export default class Club implements IParsedClub {
+import { IClub } from "../types/clubs";
+export default class Club implements IClub {
   id: number;
   name: string;
   shortName: string;
@@ -13,9 +13,8 @@ export default class Club implements IParsedClub {
   founded: number;
   clubColors: string;
   venue: string;
-  lastUpdated: string;
 
-  constructor(club: IParsedClub) {
+  constructor(club: IClub) {
     this.id = club.id;
     this.name = club.name;
     this.shortName = club.shortName;
@@ -28,7 +27,6 @@ export default class Club implements IParsedClub {
     this.founded = club.founded;
     this.clubColors = club.clubColors;
     this.venue = club.venue;
-    this.lastUpdated = club.lastUpdated;
     this.country = club.country;
   }
 }

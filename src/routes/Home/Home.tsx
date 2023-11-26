@@ -1,5 +1,5 @@
-import { IParsedClub } from "../../types/clubs";
-import Loading from "../Loading";
+import { IClub } from "../../types/clubs";
+import { Loading, Error } from "../../components";
 import useClubsList from "../../hooks/useClubsList";
 import { Link } from "react-router-dom";
 
@@ -21,21 +21,9 @@ export default function Home() {
 
   if (Array.isArray(data)) return <ClubList clubs={data} />;
 
-  if (error) return <ErrorMessage />;
+  if (error) return <Error error={error} />;
 }
-
-function ErrorMessage() {
-  return (
-    <div className="p-2">
-      <h2 className="text-mainWhite font-bold text-center text-sm md:text-xl">
-        An error has occured, please refresh and wait a moment.
-      </h2>
-    </div>
-  );
-}
-
-function ClubList(props: { clubs: IParsedClub[] }) {
-  const { clubs } = props;
+function ClubList({ clubs }: { clubs: IClub[] }) {
   return (
     <div className="p-2">
       <h2 className="text-mainWhite font-bold text-center text-sm md:text-xl">
@@ -47,8 +35,7 @@ function ClubList(props: { clubs: IParsedClub[] }) {
   );
 }
 
-function ClubsTable(props: { clubs: IParsedClub[] }) {
-  const { clubs } = props;
+function ClubsTable({ clubs }: { clubs: IClub[] }) {
   return (
     <table className="my-4 m-auto font-bold text-2xs bg-mainGray rounded rounded-b-lg md:text-base">
       <thead>
@@ -68,8 +55,7 @@ function ClubsTable(props: { clubs: IParsedClub[] }) {
   );
 }
 
-function ClubRow(props: { club: IParsedClub }) {
-  const { club } = props;
+function ClubRow({ club }: { club: IClub }) {
   return (
     <tr key={club.id} className="text-center text-mainWhite ">
       <td className="rounded">
@@ -87,21 +73,21 @@ function ClubRow(props: { club: IParsedClub }) {
     </tr>
   );
 }
-function TableButton(props: TableButtonProps) {
+function TableButton({ action, text, clubId }: TableButtonProps) {
   return (
-    <Link to={`/club/${props.action}/${props.clubId}`}>
+    <Link to={`/club/${action}/${clubId}`}>
       <button className="m-1 py-1 px-2 bg-mainRed text-mainWhite font-bold rounded text-2xs rounded bg-mainGray md:text-base md:py-2 md:px-4">
-        {props.text}
+        {text}
       </button>
     </Link>
   );
 }
 
-function MainButton(props: MainButtonProps) {
+function MainButton({ action, text }: MainButtonProps) {
   return (
-    <Link to={`/club/${props.action}`}>
+    <Link to={`/club/${action}`}>
       <button className="m-2 p-1 bg-mainRed text-mainWhite font-bold rounded text-xs rounded bg-mainGray md:text-base md:p-2">
-        {props.text}
+        {text}
       </button>
     </Link>
   );

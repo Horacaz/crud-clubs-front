@@ -1,12 +1,12 @@
 import { getClubFromApi } from "../api/clubs";
 import clubMapper from "../mappers/clubMapper";
 import { useEffect } from "react";
-import { IParsedClub, IUnparsedClub } from "../types/clubs";
+import { IClub, IUnparsedClub } from "../types/clubs";
 import useClubsApp from "./useClubsApp";
 
 export default function useViewClub(clubId: number) {
   const { state, handleLoadingAction, handleSuccessAction, handleErrorAction } =
-    useClubsApp<IParsedClub>();
+    useClubsApp<IClub>();
 
   useEffect(() => {
     const getClub = async () => {

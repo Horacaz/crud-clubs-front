@@ -1,31 +1,31 @@
 import { useParams, Link } from "react-router-dom";
-import { IParsedClub } from "../../types/clubs";
+import { IClub } from "../../types/clubs";
 import useViewClub from "../../hooks/useViewClub";
 import useClubDelete from "../../hooks/useClubDelete";
-import Loading from "../Loading";
+import { Error, Loading } from "../../components";
 
 export default function ClubDelete() {
   const { id } = useParams();
-  const { data, loading } = useViewClub(Number(id));
+  const { data, loading, error } = useViewClub(Number(id));
   const { setClubToDelete, clubToDelete, state } = useClubDelete();
   const clubDeleteStats = state;
 
-  return (
-    <>
-      {data && !clubToDelete && (
-        <ClubDeleteWarning data={data} setClubToDelete={setClubToDelete} />
-      )}
-      {clubDeleteStats.loading && <Loading isDisplayed={loading} />}
-      {clubDeleteStats.data && clubToDelete && <ClubSuccesfullyDeleted />}
-    </>
-  );
+  if (error) return <Error error={error} />;
+
+  if (clubDeleteStats.loading && loading)
+    return <Loading isDisplayed={loading} />;
+
+  if (data && !clubToDelete)
+    return <ClubDeleteWarning club={data} setClubToDelete={setClubToDelete} />;
+
+  if (clubDeleteStats.data && clubToDelete) return <ClubSuccesfullyDeleted />;
 }
 
-function ClubDeleteWarning(props: {
-  data: IParsedClub;
+type ClubDeleteWarningProps = {
+  club: IClub;
   setClubToDelete: (id: number) => void;
-}) {
-  const { data, setClubToDelete } = props;
+};
+function ClubDeleteWarning({ club, setClubToDelete }: ClubDeleteWarningProps) {
   return (
     <div className="m-auto p-2 flex">
       <div className="m-auto p-8 bg-mainGray rounded flex flex-col text-center md:p-2">
@@ -34,9 +34,9 @@ function ClubDeleteWarning(props: {
         </h2>
         <div className="m-auto p-2">
           <h2 className="text-mainRed font-bold text-base md:text-2xl">
-            {data.name}
+            {club.name}
           </h2>
-          <img src={data.crestSrc} className="max-w-h m-auto" />
+          <img src={club.crestSrc} className="max-w-h m-auto" />
         </div>
         <div>
           <Link to="/">
@@ -46,7 +46,7 @@ function ClubDeleteWarning(props: {
           </Link>
           <button
             className="m-2 p-1 bg-mainRed text-mainWhite font-bold rounded text-base rounded bg-mainGray md:text-xl md:p-2"
-            onClick={() => setClubToDelete(data.id)}
+            onClick={() => setClubToDelete(club.id)}
           >
             Delete
           </button>

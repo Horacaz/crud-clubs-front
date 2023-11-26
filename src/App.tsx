@@ -1,8 +1,6 @@
-import Header from "./components/Header";
-import Home from "./components/Home";
-import ClubView from "./components/ClubView";
-import ClubDelete from "./components/ClubDelete";
-import ClubAdd from "./components/ClubAdd";
+import { Header } from "./components";
+import { Home, ClubAdd, ClubView, ClubDelete } from "./routes";
+
 import { ClubsProvider } from "./context/clubsContext";
 import { Route, Routes } from "react-router-dom";
 

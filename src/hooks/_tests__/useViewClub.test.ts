@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { IParsedClub } from "../../types/clubs";
+import { IClub } from "../../types/clubs";
 import useViewClub from "../useViewClub";
 import { ClubsProvider } from "../../context/clubsContext";
 
@@ -8,10 +8,7 @@ jest.mock("../../api/clubs", () => {
     getClubFromApi: jest.fn((clubId: number) =>
       Promise.resolve({
         id: clubId,
-        area: {
-          id: 1,
-          name: "test",
-        },
+        country: "test",
         name: "test",
         shortName: "test",
         tla: "test",
@@ -23,7 +20,6 @@ jest.mock("../../api/clubs", () => {
         founded: 1,
         clubColors: "test",
         venue: "test",
-        lastUpdated: "test",
       }),
     ),
   };
@@ -33,7 +29,7 @@ describe("useClubs", () => {
   test("it should return an array of Clubs", async () => {
     const clubId = 100;
 
-    const parsedClub: IParsedClub = {
+    const parsedClub: IClub = {
       id: clubId,
       name: "test",
       shortName: "test",
@@ -47,7 +43,6 @@ describe("useClubs", () => {
       founded: 1,
       clubColors: "test",
       venue: "test",
-      lastUpdated: "test",
     };
 
     const { result } = renderHook(() => useViewClub(clubId), {

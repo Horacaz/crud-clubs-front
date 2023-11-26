@@ -26,8 +26,8 @@ export default function ClubAdd() {
         <FormInput
           register={register}
           type="text"
-          name="clubName"
-          id="clubName"
+          name="name"
+          id="name"
           text="Club Name"
         />
         <FormInput

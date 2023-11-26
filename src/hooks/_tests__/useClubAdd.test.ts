@@ -14,7 +14,7 @@ jest.mock("../../api/clubs", () => {
 
 describe("useClubAdd", () => {
   const formData: IFormData = {
-    clubName: "test",
+    name: "test",
     shortName: "test",
     tla: "test",
     country: "test",
@@ -25,7 +25,6 @@ describe("useClubAdd", () => {
     email: "test",
     founded: 0,
     venue: "test",
-    lastUpdated: "test",
   };
   test("It should succesfully send a clubFormData", async () => {
     const { result } = renderHook(() => useClubAdd(), {

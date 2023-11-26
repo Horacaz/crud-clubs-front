@@ -1,5 +1,5 @@
 import { IUnparsedClub, ApiResponse } from "../types/clubs";
-
+// https://crub-clubs-api.onrender.com
 export async function getClubsFromApi(): Promise<IUnparsedClub[]> {
   const clubs = await fetch("https://crub-clubs-api.onrender.com/api")
     .then((res) => res.json())

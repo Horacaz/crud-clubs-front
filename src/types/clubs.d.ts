@@ -1,4 +1,4 @@
-export interface IParsedClub {
+export interface IClub {
   id: number;
   country: string;
   name: string;
@@ -12,16 +12,12 @@ export interface IParsedClub {
   founded: number;
   clubColors: string;
   venue: string;
-  lastUpdated: string;
 }
 
 export interface IUnparsedClub {
   id: number;
-  area: {
-    id: number;
-    name: string;
-  };
   name: string;
+  country: string;
   shortName: string;
   tla: string;
   crestUrl: string;
@@ -32,7 +28,6 @@ export interface IUnparsedClub {
   founded: number;
   clubColors: string;
   venue: string;
-  lastUpdated: string;
 }
 
 export interface ApiResponse {
@@ -40,7 +35,7 @@ export interface ApiResponse {
 }
 
 export interface IFormData {
-  clubName: string;
+  name: string;
   shortName: string;
   tla: string;
   country: string;
@@ -51,7 +46,6 @@ export interface IFormData {
   email: string;
   founded: number;
   venue: string;
-  lastUpdated: string;
   crest?: File;
 }
 
