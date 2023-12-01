@@ -1,5 +1,5 @@
 import { IUnparsedClub, ApiResponse } from "../types/clubs";
-// https://crub-clubs-api.onrender.com
+
 export async function getClubsFromApi(): Promise<IUnparsedClub[]> {
   const clubs = await fetch("https://crub-clubs-api.onrender.com/api")
     .then((res) => res.json())
@@ -31,6 +31,22 @@ export async function addClubToApi(data: FormData): Promise<ApiResponse> {
     method: "POST",
     body: data,
   })
+    .then((res) => res.json())
+    .then((data) => data);
+  return club;
+}
+
+export async function editClubInApi(
+  clubId: number,
+  data: FormData,
+): Promise<ApiResponse> {
+  const club = await fetch(
+    `https://crub-clubs-api.onrender.com/api/club/${clubId}`,
+    {
+      method: "PATCH",
+      body: data,
+    },
+  )
     .then((res) => res.json())
     .then((data) => data);
   return club;

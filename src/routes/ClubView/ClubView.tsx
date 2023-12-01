@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Loading, Error } from "../../components";
 import useViewClub from "../../hooks/useViewClub";
 import { IClub } from "../../types/clubs";
+import question from "../../../assets/question.png";
 export default function ClubView() {
   const { id } = useParams();
   const { data, loading, error } = useViewClub(Number(id));
@@ -63,24 +64,14 @@ function ClubImage({ clubData }: { clubData: IClub }) {
   return (
     <div className="bg-mainGray m-4 p-4 rounded text-center">
       <form className="flex flex-col justify-center items-center">
-        <img src={clubData.crestSrc} className="max-w-h" />
+        <img src={clubData.crestSrc || question} className="max-w-h" />
         <h2 className="text-mainWhite font-bold text-xl md:text-2xl">
           {clubData.shortName}
           <br />({clubData.tla})
         </h2>
         <div>
-          <MainButton
-            text="Edit"
-            onClick={() => {
-              alert("Edit");
-            }}
-          />
-          <MainButton
-            text="Delete"
-            onClick={() => {
-              alert("Delete");
-            }}
-          />
+          <MainButton text="Edit" action="edit" clubId={clubData.id} />
+          <MainButton text="Delete" action="delete" clubId={clubData.id} />
         </div>
       </form>
     </div>
@@ -99,14 +90,13 @@ function ClubFieldInformation({ fieldName, fieldValue }: FieldInformation) {
   );
 }
 
-type MainButton = { text: string; onClick: () => void };
-function MainButton({ text, onClick }: MainButton) {
+type MainButton = { text: string; action: string; clubId: number };
+function MainButton({ text, action, clubId }: MainButton) {
   return (
-    <button
-      className="p-2 m-2 bg-mainRed text-mainWhite font-bold rounded text-base rounded bg-mainGray md:text-xl"
-      onClick={onClick}
-    >
-      {text}
-    </button>
+    <Link to={`/club/${action}/${clubId}`}>
+      <button className="p-2 m-2 bg-mainRed text-mainWhite font-bold rounded text-base rounded bg-mainGray md:text-xl">
+        {text}
+      </button>
+    </Link>
   );
 }

@@ -17,6 +17,7 @@ beforeEach(() => {
         id: 1,
       },
     ],
+    error: null,
   });
 });
 describe("Home", () => {

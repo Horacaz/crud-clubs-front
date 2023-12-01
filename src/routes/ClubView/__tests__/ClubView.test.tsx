@@ -1,4 +1,5 @@
 import { screen, render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 import useViewClub from "../../../hooks/useViewClub";
 import ClubView from "../ClubView";
 jest.mock("../../../hooks/useViewClub");
@@ -14,8 +15,7 @@ beforeEach(() => {
       name: "Aston Villa FC",
       shortName: "Aston Villa",
       tla: "AST",
-      crestSrc:
-        "https://upload.wikimedia.org/wikipedia/de/9/9f/Aston_Villa_logo.svg",
+      crestSrc: "crestUrl",
       address: "Villa Park Birmingham B6 6HE",
       phone: "+44 (0121) 3272299",
       website: "http://www.avfc.co.uk",
@@ -30,7 +30,12 @@ beforeEach(() => {
 
 describe("ClubView", () => {
   test("ClubView component renders correctly", () => {
-    render(<ClubView />);
+    render(
+      <BrowserRouter>
+        <ClubView />
+      </BrowserRouter>,
+    );
+
     screen.getByText("Aston Villa FC");
     screen.getByText("Claret / Sky Blue");
   });

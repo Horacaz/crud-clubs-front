@@ -48,7 +48,7 @@ function ClubsTable({ clubs }: { clubs: IClub[] }) {
       </thead>
       <tbody className="text-center text-mainWhite">
         {clubs.map((club) => (
-          <ClubRow club={club} key={club.name} />
+          <ClubRow club={club} key={club.id} />
         ))}
       </tbody>
     </table>

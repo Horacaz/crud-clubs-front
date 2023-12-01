@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { UseFormRegister, useForm } from "react-hook-form";
-import { IFormData } from "../../types/clubs";
-import useClubAdd from "../../hooks/useClubAdd";
+import { IFormData, IClub } from "../../types/clubs";
 import { Loading, Error } from "../../components";
+import question from "../../../assets/question.png";
+import useClubEdit from "../../hooks/useClubEdit";
+import useViewClub from "../../hooks/useViewClub";
 
 type FormInputProps = {
   register: UseFormRegister<IFormData>;
@@ -10,36 +12,46 @@ type FormInputProps = {
   name: keyof IFormData;
   id: keyof IFormData;
   text: string;
+  placeholder: string;
 };
-export default function ClubAdd() {
-  const { addClub, state } = useClubAdd();
-  const { data, loading, error } = state;
+export default function ClubEdit() {
+  const { id } = useParams();
+  const clubId = Number(id);
+  const { data, loading, error } = useViewClub(clubId);
+  const { editClub, state } = useClubEdit();
   const { register, handleSubmit } = useForm<IFormData>();
-  const onSubmit = handleSubmit((data) => addClub(data));
+  const onSubmit = handleSubmit((data) => editClub(clubId, data));
 
-  if (loading) return <Loading isDisplayed={loading} />;
+  if (state.data?.status === "200") return <ClubSuccesfullyEdited />;
+  if (!Array.isArray(data) && data)
+    return <EditForm onSubmit={onSubmit} register={register} club={data} />;
   if (error) return <Error error={error} />;
-  if (!data) return <ClubAddForm onSubmit={onSubmit} register={register} />;
-  if (data.status === "200") return <ClubSuccesfullyAdded />;
+  if (loading) return <Loading isDisplayed={loading} />;
 }
 
-type ClubAddForm = {
+type EditForm = {
   onSubmit: () => void;
   register: UseFormRegister<IFormData>;
+  club: IClub;
 };
-function ClubAddForm(props: ClubAddForm) {
-  const { onSubmit, register } = props;
+
+function EditForm({ onSubmit, register, club }: EditForm) {
   return (
     <div className="flex flex-col p-4 m-auto md:max-w-h">
       <h2 className="text-mainWhite font-bold text-xl text-center md:text-2xl">
-        Create a <span className="text-mainRed">New Club</span>
+        Editing
       </h2>
+      <h3 className="font-bold text-xl text-center md:text-2xl text-mainRed">
+        {club.name}
+      </h3>
+      <ClubImage crestSrc={club.crestSrc} />
       <form
         className="m-2 p-2 bg-mainGray flex flex-col rounded"
         onSubmit={onSubmit}
       >
         <FormInput
           register={register}
+          placeholder={club.name}
           type="text"
           name="name"
           id="name"
@@ -47,6 +59,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.shortName}
           type="text"
           name="shortName"
           id="shortName"
@@ -54,6 +67,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.tla}
           type="text"
           name="tla"
           id="tla"
@@ -61,6 +75,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.country}
           type="text"
           name="country"
           id="country"
@@ -68,6 +83,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.clubColors}
           type="text"
           name="clubColors"
           id="clubColors"
@@ -75,6 +91,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.founded.toString()}
           type="text"
           name="founded"
           id="founded"
@@ -82,6 +99,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.venue}
           type="text"
           name="venue"
           id="venue"
@@ -89,6 +107,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.address}
           type="text"
           name="address"
           id="address"
@@ -96,6 +115,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.website}
           type="text"
           name="website"
           id="website"
@@ -103,6 +123,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.email}
           type="text"
           name="email"
           id="email"
@@ -110,6 +131,7 @@ function ClubAddForm(props: ClubAddForm) {
         />
         <FormInput
           register={register}
+          placeholder={club.phone}
           type="text"
           name="phone"
           id="phone"
@@ -130,12 +152,12 @@ function FormInput(props: FormInputProps) {
     >
       {props.text}
       <input
+        placeholder={props.placeholder}
         {...props.register(props.name)}
         type={props.type}
         className="outline-none text-mainRed font-bold bg-mainBlack m-1 p-1"
         name={props.name}
         id={props.id}
-        required
       />
     </label>
   );
@@ -160,6 +182,15 @@ function FormCrestImageInput(props: { register: UseFormRegister<IFormData> }) {
   );
 }
 
+function ClubImage({ crestSrc }: { crestSrc: string }) {
+  return (
+    <img
+      src={crestSrc || question}
+      className="m-2 p-2 rounded max-w-h justify-center m-auto"
+    />
+  );
+}
+
 function SubmitButton() {
   return (
     <button
@@ -171,12 +202,12 @@ function SubmitButton() {
   );
 }
 
-function ClubSuccesfullyAdded() {
+function ClubSuccesfullyEdited() {
   return (
     <div className="m-auto p-2 flex">
       <div className="m-auto p-8 bg-mainGray rounded flex flex-col text-center md:p-2">
         <h2 className="text-mainWhite font-bold text-base md:text-2xl">
-          Club successfully added!
+          Club successfully edited!
         </h2>
         <Link to="/">
           <button className="m-2 p-1 bg-mainRed text-mainWhite font-bold rounded text-base rounded bg-mainGray md:text-xl md:p-2">

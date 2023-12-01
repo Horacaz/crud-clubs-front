@@ -8,12 +8,13 @@ jest.mock("../../api/clubs", () => {
     deleteClubFromApi: jest.fn(() =>
       Promise.resolve({
         status: "Okey",
+        message: "club deleted",
       }),
     ),
   };
 });
 
-const apiResponse: ApiResponse = { status: "Okey" };
+const apiResponse: ApiResponse = { status: "Okey", message: "club deleted" };
 
 describe("useClubDelete", () => {
   test("it should succesfully call deleteClubFromApi", async () => {
