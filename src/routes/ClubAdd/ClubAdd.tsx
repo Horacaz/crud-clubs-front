@@ -4,23 +4,24 @@ import { IFormData } from "../../types/clubs";
 import useClubAdd from "../../hooks/useClubAdd";
 import { Loading, Error } from "../../components";
 
-type FormInputProps = {
-  register: UseFormRegister<IFormData>;
-  type: string;
-  name: keyof IFormData;
-  id: keyof IFormData;
-  text: string;
-};
 export default function ClubAdd() {
   const { addClub, state } = useClubAdd();
   const { data, loading, error } = state;
   const { register, handleSubmit } = useForm<IFormData>();
   const onSubmit = handleSubmit((data) => addClub(data));
 
+  if (data?.status === "200") return <ClubSuccesfullyAdded />;
   if (loading) return <Loading isDisplayed={loading} />;
-  if (error) return <Error error={error} />;
-  if (!data) return <ClubAddForm onSubmit={onSubmit} register={register} />;
-  if (data.status === "200") return <ClubSuccesfullyAdded />;
+  if (error)
+    return (
+      <Error
+        error={
+          error || ({ message: "Component could not be rendered." } as Error)
+        }
+      />
+    );
+
+  return <ClubAddForm onSubmit={onSubmit} register={register} />;
 }
 
 type ClubAddForm = {
@@ -38,89 +39,29 @@ function ClubAddForm(props: ClubAddForm) {
         className="m-2 p-2 bg-mainGray flex flex-col rounded"
         onSubmit={onSubmit}
       >
-        <FormInput
-          register={register}
-          type="text"
-          name="name"
-          id="name"
-          text="Club Name"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="shortName"
-          id="shortName"
-          text="Short Name"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="tla"
-          id="tla"
-          text="TLA"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="country"
-          id="country"
-          text="Country"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="clubColors"
-          id="clubColors"
-          text="Club Colors"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="founded"
-          id="founded"
-          text="Founded"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="venue"
-          id="venue"
-          text="Venue"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="address"
-          id="address"
-          text="Address"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="website"
-          id="website"
-          text="Website"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="email"
-          id="email"
-          text="Email"
-        />
-        <FormInput
-          register={register}
-          type="text"
-          name="phone"
-          id="phone"
-          text="Phone"
-        />
+        <FormInput register={register} name="name" text="Club Name" />
+        <FormInput register={register} name="shortName" text="Short Name" />
+        <FormInput register={register} name="tla" text="TLA" />
+        <FormInput register={register} name="country" text="Country" />
+        <FormInput register={register} name="clubColors" text="Club Colors" />
+        <FormInput register={register} name="founded" text="Founded" />
+        <FormInput register={register} name="venue" text="Venue" />
+        <FormInput register={register} name="address" text="Address" />
+        <FormInput register={register} name="website" text="Website" />
+        <FormInput register={register} name="email" text="Email" />
+        <FormInput register={register} name="phone" text="Phone" />
         <FormCrestImageInput register={register} />
         <SubmitButton />
       </form>
     </div>
   );
 }
+
+type FormInputProps = {
+  register: UseFormRegister<IFormData>;
+  name: keyof IFormData;
+  text: string;
+};
 
 function FormInput(props: FormInputProps) {
   return (
@@ -131,10 +72,10 @@ function FormInput(props: FormInputProps) {
       {props.text}
       <input
         {...props.register(props.name)}
-        type={props.type}
+        type="text"
         className="outline-none text-mainRed font-bold bg-mainBlack m-1 p-1"
         name={props.name}
-        id={props.id}
+        id={props.name}
         required
       />
     </label>

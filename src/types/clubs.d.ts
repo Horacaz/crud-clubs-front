@@ -59,8 +59,7 @@ export type State<T> = {
 export type Action<T> =
   | HANDLE_LOADING_ACTION
   | HANDLE_SUCCESS_ACTION<T>
-  | HANDLE_ERROR_ACTION
-  | RESET_STATE_ACTION;
+  | HANDLE_ERROR_ACTION;
 
 type HANDLE_LOADING_ACTION = {
   type: "LOADING";
@@ -86,14 +85,5 @@ type HANDLE_ERROR_ACTION = {
     loading: boolean;
     data: null;
     error: Error;
-  };
-};
-
-type RESET_STATE_ACTION = {
-  type: "RESET";
-  payload: {
-    loading: boolean;
-    data: null;
-    error: null;
   };
 };

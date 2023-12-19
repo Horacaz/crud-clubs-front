@@ -46,23 +46,10 @@ export default function useClubsApp<T>() {
     },
     [dispatch],
   );
-
-  const resetState = useCallback(() => {
-    dispatch({
-      type: "RESET",
-      payload: {
-        loading: false,
-        data: null,
-        error: null,
-      },
-    });
-  }, [dispatch]);
-
   return {
     state,
     handleLoadingAction,
     handleSuccessAction,
     handleErrorAction,
-    resetState,
   };
 }
